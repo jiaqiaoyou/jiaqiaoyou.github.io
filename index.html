@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Shape Animation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .figure {
+            width: 200px;
+            height: 400px;
+            position: relative;
+            transform: scale(0.8);
+        }
+
+        @media screen and (max-width: 480px) {
+            .figure {
+                transform: scale(0.6);
+            }
+        }
+
+        .head {
+            width: 60px;
+            height: 60px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 70px;
+        }
+
+        .body {
+            width: 80px;
+            height: 140px;
+            background: #333;
+            position: absolute;
+            top: 60px;
+            left: 60px;
+        }
+
+        .arm {
+            width: 20px;
+            height: 100px;
+            background: #333;
+            position: absolute;
+            transform-origin: top center;
+        }
+
+        .arm-left {
+            left: 40px;
+            top: 70px;
+            animation: leftArmMove 2s infinite;
+        }
+
+        .arm-right {
+            right: 40px;
+            top: 70px;
+            animation: rightArmMove 2s infinite;
+        }
+
+        .leg {
+            width: 20px;
+            height: 120px;
+            background: #333;
+            position: absolute;
+            top: 200px;
+        }
+
+        .leg-left {
+            left: 70px;
+        }
+
+        .leg-right {
+            right: 70px;
+        }
+
+        @keyframes leftArmMove {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(45deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes rightArmMove {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-45deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .heart {
+            opacity: 0;
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: heartAppear 2s infinite;
+        }
+        
+        .heart:before,
+        .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: red;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartAppear {
+            0% { opacity: 0; transform: translateX(-50%) scale(0); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1); }
+            100% { opacity: 0; transform: translateX(-50%) scale(0); }
+        }
+
+        .text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: -40px;
+            font-size: 36px;
+            color: red;
+            opacity: 0;
+            animation: textAppear 2s infinite;
+        }
+
+        @keyframes textAppear {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="figure">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="arm arm-left"></div>
+        <div class="arm arm-right"></div>
+        <div class="leg leg-left"></div>
+        <div class="leg leg-right"></div>
+        <div class="heart"></div>
+        <div class="text">love ssq</div>
+    </div>
+</body>
+</html>
