@@ -1,176 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Starry Field</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            min-height: 100vh;
-            background: #000;
+            background: #000000;
             overflow: hidden;
-            position: relative;
-            perspective: 1000px;
         }
-
-        /* Stars background */
+        
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
         .star {
-            position: fixed;
+            position: absolute;
             width: 2px;
             height: 2px;
-            background: white;
+            background: #fff;
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: twinkle 1.5s infinite;
         }
-
+        
         @keyframes twinkle {
-            0% { opacity: 0.2; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.2; }
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
         }
-
-        /* Road with perspective */
-        .road {
-            position: fixed;
-            bottom: -5vh;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(0deg, 
-                #1c1c1c 0%,
-                #2c2c2c 100%
-            );
-            transform: rotateX(60deg);
-            transform-origin: bottom;
-            left: 0;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            background-image: 
-                radial-gradient(circle at center, rgba(60,60,60,0.4) 1px, transparent 1px),
-                radial-gradient(circle at center, rgba(60,60,60,0.4) 1px, transparent 1px);
-            background-size: 16px 16px;
-            background-position: 0 0, 8px 8px;
-        }
-
-        /* Road markings */
-        .road::before {
-            content: '';
+        
+        .shooting-star {
             position: absolute;
-            width: 12%;
-            height: 100%;
-            left: 44%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(255,255,255,0.8) 0%,
-                rgba(255,255,255,0.8) 8%,
-                transparent 8%,
-                transparent 20%
-            );
-        }
-
-        /* Horizon effect */
-        .road::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                to bottom,
-                rgba(0,0,0,1) 0%,
-                rgba(0,0,0,0) 30%
-            );
-            pointer-events: none;
-        }
-
-        /* Moon */
-        .moon {
-            position: fixed;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle at 40% 40%,
-                #ffffff 0%,
-                #f0f0f0 50%,
-                #e0e0e0 100%
-            );
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
             border-radius: 50%;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 60px rgba(255,255,255,0.6);
-            opacity: 0.9;
+            animation: shoot 3s linear infinite;
         }
-
-        .moon::before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(200,200,200,0.3);
-            border-radius: 50%;
-            top: 30%;
-            left: 25%;
-        }
-
-        .moon::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: rgba(200,200,200,0.2);
-            border-radius: 50%;
-            top: 60%;
-            left: 55%;
-        }
-
-        /* Fireflies */
-        .firefly {
-            position: fixed;
-            width: 3px;
-            height: 3px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            box-shadow: 0 0 5px #ffeb3b;
-            animation: float 15s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
-            25% { opacity: 1; }
-            50% { transform: translate(100px, -50px) scale(1.2); opacity: 0.8; }
-            75% { opacity: 1; }
-            100% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100%) translateY(0);
+            }
+            100% {
+                transform: translateX(200vw) translateY(100vh);
+            }
         }
     </style>
-    <script>
-        window.onload = function() {
-            const body = document.body;
-            // Create random stars
+</head>
+<body>
+    <div class="container">
+        <script>
+            // Create multiple shooting stars
+            for(let i = 0; i < 30; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.top = `${Math.random() * 50}%`; // Start in top half of screen
+                shootingStar.style.animationDelay = `${Math.random() * 5}s`; // Stagger the animations
+                document.querySelector('.container').appendChild(shootingStar);
+            }
+
+            // Create stars
+            const container = document.querySelector('.container');
             for(let i = 0; i < 200; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 70 + '%';
-                const size = Math.random() * 2 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                body.appendChild(star);
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(star);
             }
-
-            // Add fireflies
-            for(let i = 0; i < 30; i++) {
-                const firefly = document.createElement('div');
-                firefly.className = 'firefly';
-                firefly.style.left = Math.random() * 100 + '%';
-                firefly.style.bottom = Math.random() * 30 + '%';
-                firefly.style.animationDelay = -Math.random() * 15 + 's';
-                body.appendChild(firefly);
-            }
-        }
-    </script>
-</head>
-<body>
-    <div class="moon"></div>
-    <div class="road"></div>
+        </script>
+    </div>
 </body>
 </html>
