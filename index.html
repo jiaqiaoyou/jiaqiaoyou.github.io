@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             display: flex;
@@ -10,12 +11,16 @@
             margin: 0;
             background: #000000;
             overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         .container {
             position: relative;
             width: 100vw;
             height: 100vh;
+            touch-action: none;
         }
         
         .star {
@@ -40,8 +45,8 @@
         
         .shooting-star {
             position: absolute;
-            width: 4px;
-            height: 4px;
+            width: 3px;
+            height: 3px;
             background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
             border-radius: 50%;
             animation: shoot 3s linear infinite;
@@ -55,13 +60,26 @@
                 transform: translateX(200vw) translateY(100vh);
             }
         }
+
+        @media screen and (max-width: 768px) {
+            .star {
+                width: 1.5px;
+                height: 1.5px;
+            }
+            
+            .shooting-star {
+                width: 2px;
+                height: 2px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <script>
             // Create multiple shooting stars
-            for(let i = 0; i < 30; i++) {
+            const numShootingStars = window.innerWidth < 768 ? 15 : 30;
+            for(let i = 0; i < numShootingStars; i++) {
                 const shootingStar = document.createElement('div');
                 shootingStar.className = 'shooting-star';
                 shootingStar.style.top = `${Math.random() * 50}%`; // Start in top half of screen
@@ -71,7 +89,8 @@
 
             // Create stars
             const container = document.querySelector('.container');
-            for(let i = 0; i < 200; i++) {
+            const numStars = window.innerWidth < 768 ? 100 : 200;
+            for(let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = `${Math.random() * 100}%`;
