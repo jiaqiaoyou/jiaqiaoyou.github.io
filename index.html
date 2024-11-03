@@ -155,27 +155,6 @@
         // Initial draw
         drawSunflower();
 
-        // Handle touch events
-        let isDragging = false;
-        
-        canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            isDragging = true;
-        });
-
-        canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (isDragging) {
-                const touch = e.touches[0];
-                const rect = canvas.getBoundingClientRect();
-                centerX = touch.clientX - rect.left;
-                centerY = touch.clientY - rect.top;
-            }
-        });
-
-        canvas.addEventListener('touchend', () => {
-            isDragging = false;
-        });
     </script>
 </body>
 </html>
